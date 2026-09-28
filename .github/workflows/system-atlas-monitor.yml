@@ -1,0 +1,86 @@
+name: System Atlas health monitor
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/system-atlas-monitor.yml"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: system-atlas-health-monitor
+  cancel-in-progress: false
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      HEALTH_URL: https://system-atlas-api.eufoniadiversity.com/api/health
+      INCIDENT_LABEL: system-atlas-monitoring
+      INCIDENT_TITLE: System Atlas production health check failed
+    steps:
+      - name: Check production API and refresh state
+        shell: bash
+        run: |
+          set -euo pipefail
+          response=$(curl --fail --silent --show-error --location \
+            --retry 2 --retry-all-errors --connect-timeout 10 --max-time 30 \
+            "$HEALTH_URL")
+          HEALTH_RESPONSE="$response" node <<'NODE'
+          const health = JSON.parse(process.env.HEALTH_RESPONSE);
+          const failures = [];
+          if (health.ready !== true) failures.push("API is not ready");
+          if (health.freshness !== "current") failures.push(`freshness is ${health.freshness ?? "unknown"}`);
+          if (health.degraded === true) failures.push("API reports degraded operation");
+          if (health.latestRun?.status !== "succeeded") failures.push(`latest refresh is ${health.latestRun?.status ?? "unknown"}`);
+          if (health.liveCounts?.countries !== 219) failures.push(`country/economy count is ${health.liveCounts?.countries ?? "missing"}`);
+          if (health.liveCounts?.indicators !== 71) failures.push(`indicator count is ${health.liveCounts?.indicators ?? "missing"}`);
+          if (health.liveCounts?.sources !== 7) failures.push(`source count is ${health.liveCounts?.sources ?? "missing"}`);
+          if (failures.length) {
+            console.error(failures.join("; "));
+            process.exit(1);
+          }
+          console.log(`Healthy: ${health.liveCounts.observations} observations; generated ${health.generatedAt}`);
+          NODE
+
+      - name: Open or update incident
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --method POST "repos/$GITHUB_REPOSITORY/labels" \
+            -f name="$INCIDENT_LABEL" -f color="B42318" \
+            -f description="Automated System Atlas production health incident" >/dev/null 2>&1 || true
+          issue_number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
+            --label "$INCIDENT_LABEL" --json number --jq '.[0].number // empty')
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          body="The independent production health check failed at $(date -u +'%Y-%m-%d %H:%M:%S UTC').\n\nHealth endpoint: $HEALTH_URL\nWorkflow run: $run_url"
+          if [ -n "$issue_number" ]; then
+            gh issue comment "$issue_number" --repo "$GITHUB_REPOSITORY" --body "$body"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$INCIDENT_TITLE" \
+              --body "$body" --label "$INCIDENT_LABEL" --assignee "$GITHUB_REPOSITORY_OWNER"
+          fi
+
+      - name: Close incident after recovery
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          issue_number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
+            --label "$INCIDENT_LABEL" --json number --jq '.[0].number // empty' 2>/dev/null || true)
+          if [ -n "$issue_number" ]; then
+            gh issue comment "$issue_number" --repo "$GITHUB_REPOSITORY" \
+              --body="Production recovered at $(date -u +'%Y-%m-%d %H:%M:%S UTC'). The health check is passing again."
+            gh issue close "$issue_number" --repo "$GITHUB_REPOSITORY" --reason completed
+          fi
