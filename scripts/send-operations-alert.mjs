@@ -1,8 +1,20 @@
-import { readFile } from "node:fs/promises";
+import { readFile, rename, writeFile } from "node:fs/promises";
 
 const statusPath = process.env.SYSTEM_ATLAS_REFRESH_STATUS_PATH ?? "/srv/system-atlas/data/refresh-status.json";
 let status = { status: "failed", message: "System Atlas refresh or publication verification failed." };
 try { status = JSON.parse(await readFile(statusPath, "utf8")); } catch {}
+if (status.status !== "failed") {
+  const failedStatus = {
+    ...status,
+    status: "failed",
+    completedAt: new Date().toISOString(),
+    message: status.message ?? "System Atlas refresh or publication verification failed.",
+  };
+  const temporaryPath = `${statusPath}.next-${process.pid}`;
+  await writeFile(temporaryPath, `${JSON.stringify(failedStatus, null, 2)}\n`);
+  await rename(temporaryPath, statusPath);
+  status = failedStatus;
+}
 const payload = {
   service: "system-atlas-refresh",
   status: "failed",

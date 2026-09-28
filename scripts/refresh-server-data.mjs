@@ -23,6 +23,7 @@ async function notifyFailure(message) {
 }
 
 const commands = [
+  ["npm", ["run", "server:backup"]],
   ["npm", ["run", "data:atlas"]],
   ["npm", ["run", "data:audit"]],
   ["npm", ["run", "server:db"]],

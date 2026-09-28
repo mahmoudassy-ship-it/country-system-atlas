@@ -10,9 +10,9 @@ User=system-atlas
 Group=system-atlas
 WorkingDirectory=/srv/system-atlas
 EnvironmentFile=-/etc/system-atlas/environment
+EnvironmentFile=-/etc/system-atlas/backup.env
 Environment=SYSTEM_ATLAS_DEPLOY_PAGES=1
 Environment=NPM_CONFIG_CACHE=/srv/system-atlas/data/npm-cache
-ExecStartPre=/usr/bin/npm run server:backup
 ExecStart=/usr/bin/npm run server:refresh
 ExecStartPost=+/usr/bin/systemctl restart system-atlas.service
 ExecStartPost=/usr/bin/npm run verify:local-api

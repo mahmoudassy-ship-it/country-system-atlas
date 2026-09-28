@@ -48,7 +48,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now system-atlas.service system-atlas-refresh.timer
 ```
 
-The remotely managed tunnel must route `system-atlas-api.eufoniadiversity.com` to `http://127.0.0.1:3001`, followed by the tunnel's catch-all rule. DNS is a proxied CNAME to the tunnel UUID. `/etc/system-atlas/environment` may set `SYSTEM_ATLAS_DEPLOY_PAGES=1`, Cloudflare credentials, `SYSTEM_ATLAS_R2_BUCKET`, and `SYSTEM_ATLAS_ALERT_WEBHOOK_URL`; secrets never belong in Git.
+The remotely managed tunnel must route `system-atlas-api.eufoniadiversity.com` to `http://127.0.0.1:3001`, followed by the tunnel's catch-all rule. DNS is a proxied CNAME to the tunnel UUID. `/etc/system-atlas/environment` holds Cloudflare credentials, while `/etc/system-atlas/backup.env` selects the private R2 bucket. `SYSTEM_ATLAS_ALERT_WEBHOOK_URL` remains optional; secrets never belong in Git.
 
 ## Routine checks
 
@@ -76,4 +76,4 @@ journalctl -u system-atlas-refresh.service -f
 - Cloudflare Pages retains prior static deployments for frontend rollback.
 - The split `public/data/atlas-index.json` plus `public/data/countries/*.json` remains the browser fallback.
 - The database builder writes to a candidate file and validates it before any swap; refresh failure therefore leaves the current database and running process unchanged.
-- Local compressed backups retain 14 days by default. Set `SYSTEM_ATLAS_R2_BUCKET` to upload them off-host; configure a bucket lifecycle policy for off-host retention.
+- Local compressed backups retain 14 days. Each daily set is also uploaded to the private `system-atlas-backups` R2 bucket, whose lifecycle policy expires objects after 90 days.
