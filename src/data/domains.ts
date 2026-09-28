@@ -1,5 +1,6 @@
 export const PROFILE_SECTIONS = [
   { id: "Overview", label: "Overview", domains: [] },
+  { id: "Demographics", label: "Demographics", domains: ["demographics"] },
   { id: "Economy", label: "Economy", domains: ["economy"] },
   { id: "PublicFinance", label: "Public finance", domains: ["public_finance"] },
   { id: "Work", label: "Work", domains: ["work"] },
@@ -14,6 +15,7 @@ export const PROFILE_SECTIONS = [
 ] as const;
 
 export const DOMAIN_LABELS: Record<string, string> = {
+  demographics: "Demographics",
   economy: "Economy",
   public_finance: "Public finance & spending",
   work: "Work & livelihoods",

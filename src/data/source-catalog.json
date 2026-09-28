@@ -60,5 +60,23 @@
     "methodologyUrl": "https://www.imf.org/-/media/files/publications/wp/2018/wp18111.pdf",
     "licenseName": "IMF Copyright and Usage Terms",
     "expectedCadence": "annual release; checked daily"
+  },
+  {
+    "id": "ilga-world-database",
+    "name": "ILGA World Database",
+    "homepageUrl": "https://database.ilga.org/",
+    "methodologyUrl": "https://ilga.org/laws-on-us-report/",
+    "licenseName": "Laws on Us: CC BY-NC 4.0; database terms apply",
+    "licenseUrl": "https://ilga.org/laws-on-us-report/",
+    "expectedCadence": "continuous legal updates; checked daily"
+  },
+  {
+    "id": "un-sdg-api",
+    "name": "United Nations Global SDG Indicators Database",
+    "homepageUrl": "https://unstats.un.org/sdgs/dataportal/database",
+    "methodologyUrl": "https://unstats.un.org/sdgs/metadata/",
+    "licenseName": "UNdata Terms of Use",
+    "licenseUrl": "https://data.un.org/Host.aspx?Content=UNdataUse",
+    "expectedCadence": "quarterly major releases; checked daily"
   }
 ]

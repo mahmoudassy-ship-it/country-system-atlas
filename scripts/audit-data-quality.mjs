@@ -4,9 +4,10 @@ import snapshot from "../data/system-atlas-snapshot.json" with { type: "json" };
 import coreIndicatorCatalog from "../src/data/indicator-catalog.json" with { type: "json" };
 import additionalIndicatorCatalog from "../src/data/additional-indicator-catalog.json" with { type: "json" };
 import expandedIndicatorCatalog from "../src/data/expanded-indicator-catalog.json" with { type: "json" };
+import inclusiveIndicatorCatalog from "../src/data/inclusive-indicator-catalog.json" with { type: "json" };
 import sourceCatalog from "../src/data/source-catalog.json" with { type: "json" };
 
-const indicators = [...coreIndicatorCatalog, ...additionalIndicatorCatalog, ...expandedIndicatorCatalog];
+const indicators = [...coreIndicatorCatalog, ...additionalIndicatorCatalog, ...expandedIndicatorCatalog, ...inclusiveIndicatorCatalog];
 const currentYear = new Date().getUTCFullYear();
 const startYear = currentYear - 14;
 const issues = [];
@@ -45,8 +46,41 @@ function normalizeIso3(code) {
   return code === "UVK" || code === "KOS" ? "XKX" : code;
 }
 
+function normalizeCountryName(value) {
+  return value.normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+const unCountryAliases = {
+  "bolivia plurinational state of": "bolivia", "congo": "congo rep",
+  "democratic republic of the congo": "congo dem rep", "iran islamic republic of": "iran islamic rep",
+  "korea democratic people s republic of": "korea dem people s rep", "republic of korea": "korea rep",
+  "lao people s democratic republic": "lao pdr", "micronesia federated states of": "micronesia fed sts",
+  "republic of moldova": "moldova", "tanzania united republic of": "tanzania",
+  "united republic of tanzania": "tanzania", "venezuela bolivarian republic of": "venezuela rb",
+  "state of palestine": "west bank and gaza", "bahamas": "bahamas the", "gambia": "gambia the",
+  "egypt": "egypt arab rep", "slovakia": "slovak republic", "yemen": "yemen rep",
+  "kyrgyzstan": "kyrgyz republic", "united states of america": "united states",
+  "united kingdom of great britain and northern ireland": "united kingdom",
+  "china hong kong special administrative region": "hong kong sar china",
+  "china macao special administrative region": "macao sar china", "netherlands kingdom of the": "netherlands",
+  "somalia": "somalia fed rep", "saint kitts and nevis": "st kitts and nevis",
+  "saint lucia": "st lucia", "saint vincent and the grenadines": "st vincent and the grenadines",
+  "united states virgin islands": "virgin islands us",
+};
+
 const snapshotValues = new Map();
 const snapshotCountryIds = new Set(snapshot.countries.map((country) => country.iso3));
+const snapshotCountryByIso2 = new Map(snapshot.countries.map((country) => [country.iso2, country]));
+const snapshotCountryByName = new Map(snapshot.countries.map((country) => [normalizeCountryName(country.name), country]));
+function countryFromUnName(name) {
+  const normalized = normalizeCountryName(name);
+  return snapshotCountryByName.get(normalized) ?? snapshotCountryByName.get(unCountryAliases[normalized]);
+}
 for (const country of snapshot.countries) {
   for (const [indicatorId, history] of Object.entries(country.history)) {
     for (const observation of history) snapshotValues.set(`${country.iso3}|${indicatorId}|${observation.period}`, observation.value);
@@ -109,6 +143,9 @@ const boundedZeroToHundred = new Set([
   "wb-poverty-3-dollar", "wb-multidimensional-poverty-headcount", "wb-women-parliament",
   "wb-safe-water", "wb-safe-sanitation", "wb-clean-cooking", "wb-renewable-energy-share", "wb-forest-area",
   "wgi-voice-accountability", "wgi-government-effectiveness", "wgi-rule-of-law", "wgi-control-corruption",
+  "wb-urban-population-share", "wb-rural-population-share", "wb-population-age-0-14", "wb-population-age-65-plus",
+  "wb-agriculture-share-gdp", "wb-industry-share-gdp", "wb-services-share-gdp", "wb-manufacturing-share-gdp",
+  "un-disability-benefit-coverage",
 ]);
 const invalidValues = [];
 const invalidPeriods = [];
@@ -125,6 +162,9 @@ for (const country of snapshot.countries) {
       if (boundedZeroToOne.has(indicatorId) && (observation.value < 0 || observation.value > 1)) invalidValues.push({ iso3: country.iso3, indicatorId, value: observation.value });
       if (boundedZeroToHundred.has(indicatorId) && (observation.value < 0 || observation.value > 100)) invalidValues.push({ iso3: country.iso3, indicatorId, value: observation.value });
       if (indicatorId === "vdem-regime-type" && (!Number.isInteger(observation.value) || observation.value < 0 || observation.value > 3)) invalidValues.push({ iso3: country.iso3, indicatorId, value: observation.value });
+      if (indicatorId === "ilga-same-sex-acts-legal" && (!Number.isInteger(observation.value) || observation.value < 0 || observation.value > 1)) invalidValues.push({ iso3: country.iso3, indicatorId, value: observation.value });
+      if (["ilga-employment-protections", "ilga-hate-crime-protections"].includes(indicatorId) && (!Number.isInteger(observation.value) || observation.value < 0 || observation.value > 4)) invalidValues.push({ iso3: country.iso3, indicatorId, value: observation.value });
+      if (indicatorId === "un-labour-rights-compliance" && (observation.value < 0 || observation.value > 10)) invalidValues.push({ iso3: country.iso3, indicatorId, value: observation.value });
       if (!observation.sourceUrl) missingSourceUrls.push({ iso3: country.iso3, indicatorId, period: observation.period });
       const indicator = indicators.find((item) => item.id === indicatorId);
       if (!indicator || !["reported", "estimated", "modelled", "projected", "unknown"].includes(observation.status)) invalidStatuses.push({ iso3: country.iso3, indicatorId, status: observation.status });
@@ -219,6 +259,46 @@ await Promise.all(indicators.filter((indicator) => indicator.sourceId === "imf-g
   }
 }));
 compare("IMF", imfComparisons);
+
+const ilgaArchiveUrl = await latestFile(new URL("../data/source-snapshots/ilga-world/", import.meta.url), ".json");
+const ilgaArchive = JSON.parse(await readFile(ilgaArchiveUrl, "utf8"));
+const ilgaPeriod = ilgaArchiveUrl.pathname.split("/").at(-1).slice(0, 4);
+const ilgaComparisons = [];
+for (const entry of ilgaArchive.criminalisation?.data?.entriesCsssa ?? []) {
+  const country = snapshotCountryByIso2.get(entry.motherEntry?.jurisdiction?.a2_code);
+  if (!country || entry.motherEntry?.subjurisdiction || typeof entry.legal !== "boolean") continue;
+  ilgaComparisons.push({ iso3: country.iso3, indicatorId: "ilga-same-sex-acts-legal", period: ilgaPeriod, value: entry.legal ? 1 : 0 });
+}
+for (const [indicatorId, payload] of [
+  ["ilga-employment-protections", ilgaArchive.employment],
+  ["ilga-hate-crime-protections", ilgaArchive.hateCrime],
+]) {
+  for (const entry of payload?.data?.entriesProtection ?? []) {
+    const country = snapshotCountryByIso2.get(entry.motherEntry?.jurisdiction?.a2_code);
+    if (!country || entry.motherEntry?.subjurisdiction) continue;
+    const value = [entry.so_protection_type, entry.gi_protection_type, entry.ge_protection_type, entry.sc_protection_type]
+      .filter((protection) => protection?.name === "Yes").length;
+    ilgaComparisons.push({ iso3: country.iso3, indicatorId, period: ilgaPeriod, value });
+  }
+}
+compare("ILGA World", ilgaComparisons);
+
+const unArchive = JSON.parse(await readFile(await latestFile(new URL("../data/source-snapshots/un-sdg/", import.meta.url), ".json"), "utf8"));
+const unComparisons = [];
+for (const indicator of indicators.filter((item) => item.sourceId === "un-sdg-api")) {
+  for (const row of unArchive[indicator.sourceIndicatorId]?.data ?? []) {
+    const country = countryFromUnName(row.geoAreaName);
+    const year = Number(row.timePeriodStart);
+    const value = Number(row.value);
+    const dimensions = row.dimensions ?? {};
+    if (!country || year < startYear || year > currentYear || !Number.isFinite(value)) continue;
+    if (dimensions["Reporting Type"] && dimensions["Reporting Type"] !== "G") continue;
+    if (indicator.sourceIndicatorId === "SI_COV_DISAB" && dimensions.Sex !== "BOTHSEX") continue;
+    if (dimensions["Migratory status"] && dimensions["Migratory status"] !== "_T") continue;
+    unComparisons.push({ iso3: country.iso3, indicatorId: indicator.id, period: String(year), value });
+  }
+}
+compare("UN SDG", unComparisons);
 
 const report = {
   generatedAt: new Date().toISOString(),

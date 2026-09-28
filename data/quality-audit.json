@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-28T12:01:15.679Z",
+  "generatedAt": "2026-09-28T12:32:18.088Z",
   "status": "passed_with_notes",
   "scope": {
     "countries": 219,
-    "indicators": 71,
-    "sources": 7,
-    "observationValues": 142972
+    "indicators": 87,
+    "sources": 9,
+    "observationValues": 165490
   },
   "roster": {
     "uniqueIso3": 219,
@@ -528,11 +528,91 @@
       "available": 193,
       "percent": 88.1,
       "latestYear": 2024
+    },
+    "wb-population-total": {
+      "available": 217,
+      "percent": 99.1,
+      "latestYear": 2025
+    },
+    "wb-urban-population-share": {
+      "available": 217,
+      "percent": 99.1,
+      "latestYear": 2025
+    },
+    "wb-rural-population-share": {
+      "available": 217,
+      "percent": 99.1,
+      "latestYear": 2025
+    },
+    "wb-population-age-0-14": {
+      "available": 217,
+      "percent": 99.1,
+      "latestYear": 2025
+    },
+    "wb-population-age-65-plus": {
+      "available": 217,
+      "percent": 99.1,
+      "latestYear": 2025
+    },
+    "wb-population-density": {
+      "available": 216,
+      "percent": 98.6,
+      "latestYear": 2023
+    },
+    "wb-agriculture-share-gdp": {
+      "available": 206,
+      "percent": 94.1,
+      "latestYear": 2025
+    },
+    "wb-industry-share-gdp": {
+      "available": 208,
+      "percent": 95,
+      "latestYear": 2025
+    },
+    "wb-services-share-gdp": {
+      "available": 205,
+      "percent": 93.6,
+      "latestYear": 2025
+    },
+    "wb-manufacturing-share-gdp": {
+      "available": 204,
+      "percent": 93.2,
+      "latestYear": 2025
+    },
+    "idea-social-group-equality": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "ilga-same-sex-acts-legal": {
+      "available": 218,
+      "percent": 99.5,
+      "latestYear": 2026
+    },
+    "ilga-employment-protections": {
+      "available": 218,
+      "percent": 99.5,
+      "latestYear": 2026
+    },
+    "ilga-hate-crime-protections": {
+      "available": 218,
+      "percent": 99.5,
+      "latestYear": 2026
+    },
+    "un-disability-benefit-coverage": {
+      "available": 184,
+      "percent": 84,
+      "latestYear": 2025
+    },
+    "un-labour-rights-compliance": {
+      "available": 186,
+      "percent": 84.9,
+      "latestYear": 2024
     }
   },
   "extraction": {
     "World Bank": {
-      "compared": 96006,
+      "compared": 112993,
       "missing": 0,
       "different": 0,
       "examples": []
@@ -544,7 +624,7 @@
       "examples": []
     },
     "International IDEA": {
-      "compared": 29064,
+      "compared": 31486,
       "missing": 0,
       "different": 0,
       "examples": []
@@ -560,11 +640,23 @@
       "missing": 0,
       "different": 0,
       "examples": []
+    },
+    "ILGA World": {
+      "compared": 654,
+      "missing": 0,
+      "different": 0,
+      "examples": []
+    },
+    "UN SDG": {
+      "compared": 2455,
+      "missing": 0,
+      "different": 0,
+      "examples": []
     }
   },
   "documentation": {
-    "complete": 71,
-    "total": 71
+    "complete": 87,
+    "total": 87
   },
   "issues": [
     {

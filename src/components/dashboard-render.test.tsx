@@ -24,7 +24,7 @@ describe("expanded dashboard rendering", () => {
         onSourcesOpen={vi.fn()}
       />,
     );
-    expect(screen.getByText(/of 71 indicators/)).toBeTruthy();
+    expect(screen.getByText(/of 87 indicators/)).toBeTruthy();
     fireEvent.click(screen.getByRole("tab", { name: "Democracy" }));
     expect(onTabChange).toHaveBeenCalledWith("Democracy");
 

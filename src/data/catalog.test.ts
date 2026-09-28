@@ -2,12 +2,13 @@ import { describe, expect, it } from "vitest";
 import coreIndicatorCatalog from "./indicator-catalog.json";
 import additionalIndicatorCatalog from "./additional-indicator-catalog.json";
 import expandedIndicatorCatalog from "./expanded-indicator-catalog.json";
+import inclusiveIndicatorCatalog from "./inclusive-indicator-catalog.json";
 import sourceCatalog from "./source-catalog.json";
 import snapshot from "../../data/system-atlas-snapshot.json";
 import type { DatasetSnapshot } from "./types";
 
 const reviewedSnapshot = snapshot as unknown as DatasetSnapshot;
-const indicatorCatalog = [...coreIndicatorCatalog, ...additionalIndicatorCatalog, ...expandedIndicatorCatalog];
+const indicatorCatalog = [...coreIndicatorCatalog, ...additionalIndicatorCatalog, ...expandedIndicatorCatalog, ...inclusiveIndicatorCatalog];
 
 const governanceIds = [
   "wgi-voice-accountability",
@@ -21,7 +22,7 @@ describe("reviewed source catalog", () => {
     const sourceIds = new Set(sourceCatalog.map((source) => source.id));
     expect(sourceIds).toEqual(new Set([
       "world-bank-api", "world-bank-wdi", "world-bank-wgi", "undp-hdro",
-      "international-idea-gsod", "owid-vdem", "imf-gdd",
+      "international-idea-gsod", "owid-vdem", "imf-gdd", "ilga-world-database", "un-sdg-api",
     ]));
     expect(new Set(indicatorCatalog.map((indicator) => indicator.id)).size).toBe(indicatorCatalog.length);
     expect(new Set(indicatorCatalog.map((indicator) => indicator.slug)).size).toBe(indicatorCatalog.length);
@@ -63,7 +64,7 @@ describe("reviewed source catalog", () => {
     const domains = new Set(indicatorCatalog.map((indicator) => indicator.domain));
     for (const domain of [
       "work", "education", "health", "equality", "services", "safety", "planet",
-      "democracy", "public_finance",
+      "democracy", "public_finance", "demographics",
     ]) {
       expect(domains.has(domain)).toBe(true);
     }
@@ -71,7 +72,13 @@ describe("reviewed source catalog", () => {
     expect(indicatorCatalog.find((indicator) => indicator.id === "wb-youth-unemployment-female")).toBeTruthy();
     expect(indicatorCatalog.find((indicator) => indicator.id === "wb-learning-poverty")).toBeTruthy();
     expect(indicatorCatalog.find((indicator) => indicator.id === "vdem-regime-type")?.format).toBe("category");
-    expect(indicatorCatalog.filter((indicator) => indicator.sourceId === "international-idea-gsod")).toHaveLength(12);
+    expect(indicatorCatalog.filter((indicator) => indicator.sourceId === "international-idea-gsod")).toHaveLength(13);
+    expect(indicatorCatalog.find((indicator) => indicator.id === "wb-urban-population-share")).toBeTruthy();
+    expect(indicatorCatalog.find((indicator) => indicator.id === "wb-services-share-gdp")).toBeTruthy();
+    expect(indicatorCatalog.find((indicator) => indicator.id === "idea-social-group-equality")).toBeTruthy();
+    expect(indicatorCatalog.filter((indicator) => indicator.sourceId === "ilga-world-database")).toHaveLength(3);
+    expect(indicatorCatalog.find((indicator) => indicator.id === "un-disability-benefit-coverage")).toBeTruthy();
+    expect(indicatorCatalog.find((indicator) => indicator.id === "un-labour-rights-compliance")).toBeTruthy();
   });
 });
 
@@ -141,5 +148,38 @@ describe("reviewed data snapshot", () => {
       expect(values.length, indicatorId).toBeGreaterThanOrEqual(180);
       expect(values.every((value) => value >= 0 && value <= 100), indicatorId).toBe(true);
     }
+  });
+
+  it("publishes broad demographic, sector, inclusion, disability, and labour-rights coverage", () => {
+    const expectedCoverage: Record<string, number> = {
+      "wb-population-total": 210,
+      "wb-urban-population-share": 210,
+      "wb-rural-population-share": 210,
+      "wb-agriculture-share-gdp": 190,
+      "wb-industry-share-gdp": 190,
+      "wb-services-share-gdp": 190,
+      "idea-social-group-equality": 160,
+      "ilga-same-sex-acts-legal": 190,
+      "ilga-employment-protections": 190,
+      "ilga-hate-crime-protections": 190,
+      "un-disability-benefit-coverage": 160,
+      "un-labour-rights-compliance": 180,
+    };
+    for (const [indicatorId, minimum] of Object.entries(expectedCoverage)) {
+      const observations = reviewedSnapshot.countries
+        .map((country) => country.latest[indicatorId])
+        .filter((observation): observation is NonNullable<typeof observation> => Boolean(observation));
+      expect(observations.length, indicatorId).toBeGreaterThanOrEqual(minimum);
+    }
+    for (const indicatorId of ["ilga-employment-protections", "ilga-hate-crime-protections"]) {
+      const values = reviewedSnapshot.countries
+        .map((country) => country.latest[indicatorId]?.value)
+        .filter((value): value is number => typeof value === "number");
+      expect(values.every((value) => Number.isInteger(value) && value >= 0 && value <= 4)).toBe(true);
+    }
+    const labourValues = reviewedSnapshot.countries
+      .map((country) => country.latest["un-labour-rights-compliance"]?.value)
+      .filter((value): value is number => typeof value === "number");
+    expect(labourValues.every((value) => value >= 0 && value <= 10)).toBe(true);
   });
 });

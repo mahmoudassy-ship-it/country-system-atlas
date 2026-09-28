@@ -14,7 +14,7 @@ const previousPath = `${targetPath}.previous`;
 const serializedSnapshot = await readFile(snapshotPath, "utf8");
 const snapshot = JSON.parse(serializedSnapshot);
 
-if (snapshot.countries.length !== 219 || snapshot.indicators.length !== 71 || snapshot.sources.length !== 7) {
+if (snapshot.countries.length !== 219 || snapshot.indicators.length !== 87 || snapshot.sources.length !== 9) {
   throw new Error(`Refusing to publish incomplete data (${snapshot.countries.length} countries, ${snapshot.indicators.length} indicators, ${snapshot.sources.length} sources)`);
 }
 
@@ -138,7 +138,7 @@ const counts = {
 };
 database.close();
 
-if (integrity !== "ok" || counts.countries !== 219 || counts.indicators !== 71 || counts.sources !== 7) {
+if (integrity !== "ok" || counts.countries !== 219 || counts.indicators !== 87 || counts.sources !== 9) {
   await rm(nextPath, { force: true });
   throw new Error(`Database validation failed: ${JSON.stringify({ integrity, counts })}`);
 }

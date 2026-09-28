@@ -7,6 +7,7 @@ import type {
 import coreIndicatorCatalog from "./indicator-catalog.json";
 import additionalIndicatorCatalog from "./additional-indicator-catalog.json";
 import expandedIndicatorCatalog from "./expanded-indicator-catalog.json";
+import inclusiveIndicatorCatalog from "./inclusive-indicator-catalog.json";
 
 export interface InitialDataset {
   countries: CountrySummary[];
@@ -21,7 +22,7 @@ export interface InitialDataset {
 
 type StaticIndex = Omit<DatasetSnapshot, "countries"> & { countries: CountrySummary[] };
 let snapshotPromise: Promise<StaticIndex> | undefined;
-const reviewedIndicatorCount = coreIndicatorCatalog.length + additionalIndicatorCatalog.length + expandedIndicatorCatalog.length;
+const reviewedIndicatorCount = coreIndicatorCatalog.length + additionalIndicatorCatalog.length + expandedIndicatorCatalog.length + inclusiveIndicatorCatalog.length;
 const apiOrigin = (import.meta.env.VITE_API_ORIGIN as string | undefined)?.replace(/\/$/, "") ?? "";
 const apiUrl = (path: string) => `${apiOrigin}${path}`;
 

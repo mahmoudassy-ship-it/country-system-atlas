@@ -33,7 +33,7 @@ Cloudflare Pages contains no Functions or database bindings. It serves the stati
 
 - dataset generation and source-update metadata;
 - the seven-source registry;
-- all 71 indicator definitions, interpretations, caveats, units, and links;
+- all 87 indicator definitions, interpretations, caveats, units, and links;
 - 219 country/economy profiles and their latest values;
 - normalized country-indicator-period observations with status and source URL.
 
@@ -45,11 +45,11 @@ The API opens this file with `readOnly: true` and `PRAGMA query_only = ON`. At s
 
 1. Create a compressed local backup and upload the checksum-manifested set to private R2 storage.
 2. Fetch the World Bank WDI/WGI, UNDP, International IDEA, V-Dem/Our World in Data, and IMF datasets.
-3. Build the 219-profile, 71-indicator source snapshot.
+3. Build the 219-profile, 87-indicator source snapshot.
 4. Compare every transformed value with the exact archived source inputs and run roster, identifier, range, chronology, status, uncertainty, provenance, documentation, and map-matching checks.
 5. Stop immediately if a critical or high-severity validation fails.
 6. Build a new SQLite file beside the active database.
-7. Require `PRAGMA integrity_check = ok` and exact 219/71/7 counts.
+7. Require `PRAGMA integrity_check = ok` and exact 219/87/9 counts.
 8. Move the previous database to `data/system-atlas.sqlite.previous`, atomically rename the candidate into place, restart the API, and require a passing local health check; post-publication verification failure triggers automatic rollback.
 9. Deploy a new Pages fallback only when the content checksum changes, then prune source archives and local backups according to retention policy.
 

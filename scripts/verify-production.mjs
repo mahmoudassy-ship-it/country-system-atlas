@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 
 const pagesOrigin = process.env.SYSTEM_ATLAS_PAGES_ORIGIN ?? "https://country-system-atlas.pages.dev";
 const apiOrigin = process.env.SYSTEM_ATLAS_API_ORIGIN ?? "https://system-atlas-api.eufoniadiversity.com";
-const target = { countries: 219, indicators: 71, sources: 7 };
+const target = { countries: 219, indicators: 87, sources: 9 };
 
 const fetchJson = async (url) => {
   const response = await fetch(url, { headers: { Accept: "application/json" } });
@@ -40,7 +40,7 @@ const checks = {
   egyptProfileComplete:
     egyptPayload.country?.iso3 === "EGY" &&
     egyptPayload.indicators?.length === target.indicators &&
-    Object.keys(egyptPayload.country?.history ?? {}).length >= 69,
+    Object.keys(egyptPayload.country?.history ?? {}).length >= 85,
 };
 const ready = Object.values(checks).every(Boolean);
 

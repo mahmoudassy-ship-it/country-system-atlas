@@ -31,7 +31,7 @@ const counts = {
   sources: database.prepare("SELECT COUNT(*) AS count FROM sources").get().count,
   observations: database.prepare("SELECT COUNT(*) AS count FROM observations").get().count,
 };
-const catalogReady = counts.countries === 219 && counts.indicators === 71 && counts.sources === 7;
+const catalogReady = counts.countries === 219 && counts.indicators === 87 && counts.sources === 9;
 const refreshStatusPath = process.env.SYSTEM_ATLAS_REFRESH_STATUS_PATH
   ? path.resolve(process.env.SYSTEM_ATLAS_REFRESH_STATUS_PATH)
   : path.join(projectDirectory, "data", "refresh-status.json");
@@ -84,7 +84,7 @@ const server = http.createServer((request, response) => {
       environment: "production",
       ready,
       servingMode: "server-sqlite",
-      catalogTarget: { countries: 219, indicators: 71, sources: 7 },
+      catalogTarget: { countries: 219, indicators: 87, sources: 9 },
       liveCounts: counts,
       generatedAt: metadata.generated_at,
       upstreamLastUpdated: metadata.upstream_last_updated || null,
