@@ -300,11 +300,28 @@ input:focus-visible,
 .completeness strong { font-size: 11px; font-weight: 500; }
 .completeness small { grid-column: 1 / -1; color: var(--muted); font-size: 9px; }
 
-.profile-tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--rule); margin-top: 23px; overflow-x: auto; scrollbar-width: none; }
-.profile-tabs::-webkit-scrollbar { display: none; }
-.profile-tabs button { flex: 0 0 auto; border: 0; background: transparent; color: #1d3a60; padding: 0 0 12px; font-size: 13px; font-weight: 500; cursor: pointer; position: relative; }
-.profile-tabs button.active { color: var(--blue); font-weight: 650; }
-.profile-tabs button.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--blue); }
+.profile-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 8px;
+  border-bottom: 1px solid var(--rule);
+  margin-top: 20px;
+  padding-bottom: 12px;
+}
+.profile-tabs button {
+  flex: 0 0 auto;
+  border: 1px solid #d5e0ea;
+  border-radius: 999px;
+  background: #f5f8fb;
+  color: #1d3a60;
+  padding: 6px 10px;
+  font-size: 11px;
+  line-height: 1.1;
+  font-weight: 550;
+  cursor: pointer;
+}
+.profile-tabs button:hover { border-color: #9eb8d1; background: #edf4fa; }
+.profile-tabs button.active { border-color: var(--blue); background: var(--blue); color: #fff; font-weight: 650; }
 
 .metric-list { flex: 1; min-height: 330px; max-height: 390px; overflow-y: auto; scrollbar-gutter: stable; padding-right: 4px; }
 .metric-row {
@@ -452,7 +469,8 @@ input:focus-visible,
   .country-panel { padding: 22px 16px 0; min-height: 600px; }
   .country-flag { font-size: 42px; }
   .country-identity h1 { font-size: 34px; }
-  .profile-tabs { gap: 22px; }
+  .profile-tabs { gap: 6px; margin-top: 18px; }
+  .profile-tabs button { padding: 6px 9px; font-size: 10.5px; }
   .metric-list { max-height: 410px; }
   .metric-row { grid-template-columns: minmax(90px, 1fr) 102px 38px 16px; min-height: 58px; }
   .metric-row .sparkline,
