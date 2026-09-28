@@ -7,7 +7,7 @@ export interface SourceDefinition {
   homepageUrl: string;
   methodologyUrl?: string;
   licenseName: string;
-  licenseUrl: string;
+  licenseUrl?: string;
   expectedCadence: string;
   lastCheckedAt?: string;
   releaseLastUpdated?: string;

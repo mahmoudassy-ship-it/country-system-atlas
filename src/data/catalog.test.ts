@@ -31,6 +31,7 @@ describe("reviewed source catalog", () => {
     expect(indicatorCatalog.every((indicator) => sourceIds.has(indicator.sourceId))).toBe(true);
     expect(sourceCatalog.every((source) => {
       return [source.homepageUrl, source.methodologyUrl, source.licenseUrl]
+        .filter((url): url is string => Boolean(url))
         .every((url) => new URL(url).protocol === "https:");
     })).toBe(true);
     expect(JSON.stringify(sourceCatalog)).not.toContain("datacatalog.worldbank.org/public-licenses");

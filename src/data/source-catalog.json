@@ -57,9 +57,8 @@
     "id": "imf-gdd",
     "name": "IMF Global Debt Database",
     "homepageUrl": "https://www.imf.org/external/datamapper/GDD/2025",
-    "methodologyUrl": "https://www.imf.org/en/Publications/WP/Issues/2018/05/14/Global-Debt-Database-Methodology-and-Sources-45838",
+    "methodologyUrl": "https://www.imf.org/-/media/files/publications/wp/2018/wp18111.pdf",
     "licenseName": "IMF Copyright and Usage Terms",
-    "licenseUrl": "https://www.imf.org/en/about/copyright-and-terms",
     "expectedCadence": "annual release; checked daily"
   }
 ]
