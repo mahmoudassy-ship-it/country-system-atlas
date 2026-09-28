@@ -12,6 +12,15 @@ interface SourceDrawerProps {
 
 export function SourceDrawer({ open, onClose, country, indicator, sourceName }: SourceDrawerProps) {
   const observation = country.latest[indicator.id];
+  const rawSourceUrl = observation?.sourceUrl;
+  const isWorldBankApi = rawSourceUrl?.startsWith("https://api.worldbank.org/") ?? false;
+  const isJsonApi = isWorldBankApi
+    || (rawSourceUrl ? /\/api\/|SDGAPI|[?&]format=json/i.test(rawSourceUrl) : false);
+  const readableSourceUrl = isWorldBankApi
+    ? `https://data.worldbank.org/indicator/${encodeURIComponent(indicator.sourceIndicatorId)}?locations=${encodeURIComponent(country.iso2)}`
+    : isJsonApi
+      ? indicator.sourceHomepageUrl
+      : rawSourceUrl ?? indicator.sourceHomepageUrl;
   if (!open) return null;
   return (
     <div className="drawer-backdrop" onMouseDown={onClose}>
@@ -63,9 +72,14 @@ export function SourceDrawer({ open, onClose, country, indicator, sourceName }: 
         <section>
           <h3>Source</h3>
           <p>{indicator.sourceName ?? sourceName}</p>
-          {observation?.sourceUrl && (
-            <a href={observation.sourceUrl} target="_blank" rel="noreferrer">
-              Open the source data <ExternalLink size={15} />
+          {readableSourceUrl && (
+            <a href={readableSourceUrl} target="_blank" rel="noreferrer">
+              View the source page <ExternalLink size={15} />
+            </a>
+          )}
+          {isJsonApi && rawSourceUrl && (
+            <a href={rawSourceUrl} target="_blank" rel="noreferrer">
+              Open raw API data (JSON) <ExternalLink size={15} />
             </a>
           )}
           {indicator.sourceMethodologyUrl && (

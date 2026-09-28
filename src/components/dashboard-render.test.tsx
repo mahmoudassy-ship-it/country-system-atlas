@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import snapshot from "../../data/system-atlas-snapshot.json";
 import type { DatasetSnapshot } from "../data/types";
 import { CountryPanel } from "./CountryPanel";
+import { SourceDrawer } from "./SourceDrawer";
 import { WorldMap } from "./WorldMap";
 
 const dataset = snapshot as unknown as DatasetSnapshot;
@@ -70,5 +71,25 @@ describe("expanded dashboard rendering", () => {
     expect(egyptPath.getAttribute("fill")).toBe("#d48324");
     expect(screen.getByText("Closed autocracy")).toBeTruthy();
     expect(screen.getAllByText("Electoral autocracy").length).toBeGreaterThan(0);
+  });
+
+  it("separates the readable World Bank source page from the raw API response", () => {
+    const population = {
+      ...dataset.indicators.find((indicator) => indicator.id === "wb-population-total")!,
+      sourceHomepageUrl: "https://databank.worldbank.org/source/world-development-indicators",
+    };
+    render(
+      <SourceDrawer
+        open
+        onClose={vi.fn()}
+        country={egypt}
+        indicator={population}
+        sourceName="World Development Indicators"
+      />,
+    );
+    expect(screen.getByRole("link", { name: /View the source page/ }).getAttribute("href"))
+      .toBe("https://data.worldbank.org/indicator/SP.POP.TOTL?locations=EG");
+    expect(screen.getByRole("link", { name: /Open raw API data/ }).getAttribute("href"))
+      .toContain("https://api.worldbank.org/v2/country/EG/indicator/SP.POP.TOTL");
   });
 });
