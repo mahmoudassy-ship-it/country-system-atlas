@@ -374,6 +374,8 @@ input:focus-visible,
 .context-controls { margin-top: 10px; }
 .context-controls label { width: 176px; height: 31px; border: 1px solid #c6d2de; border-radius: 5px; display: flex; align-items: center; position: relative; }
 .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; margin-top: 6px; }
+.analysis-grid.single { grid-template-columns: minmax(0, 1fr); }
+.analysis-grid.single article { padding-right: 0; }
 .analysis-grid article { min-width: 0; padding: 6px 18px 0 0; }
 .analysis-grid article + article { border-left: 1px solid var(--rule); padding-left: 20px; padding-right: 0; }
 .analysis-grid h3 { margin: 0; font-size: 13px; font-weight: 650; }

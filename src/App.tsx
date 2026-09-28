@@ -20,6 +20,7 @@ function App() {
   const [selectedIso3, setSelectedIso3] = useState("PRT");
   const [selectedIndicatorId, setSelectedIndicatorId] = useState("wb-gdp-per-capita-ppp");
   const [activeTab, setActiveTab] = useState("Overview");
+  const [analysisView, setAnalysisView] = useState<"trends" | "peers">("trends");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [loadingCountry, setLoadingCountry] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -92,7 +93,15 @@ function App() {
         </a>
         <nav aria-label="Primary navigation">
           <a className="active" href="#explore">Explore</a>
-          <button type="button" onClick={() => contextRef.current?.scrollIntoView({ behavior: "smooth" })}>Compare</button>
+          <button
+            type="button"
+            onClick={() => {
+              setAnalysisView("peers");
+              contextRef.current?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            Compare
+          </button>
           <button type="button" onClick={() => setDrawerOpen(true)}>Methodology</button>
           <button type="button" onClick={() => setDrawerOpen(true)}>Data sources</button>
         </nav>
@@ -150,9 +159,27 @@ function App() {
               {dataset.upstreamLastUpdated ? ` · source updated ${dataset.upstreamLastUpdated}` : ""}
             </span>
           </div>
-          <div className="context-tabs">
-            <button className="active" type="button">Trends over time</button>
-            <button type="button" onClick={() => document.querySelector(".peer-panel")?.scrollIntoView({ behavior: "smooth" })}>
+          <div className="context-tabs" role="tablist" aria-label="Country analysis view">
+            <button
+              id="analysis-trends-tab"
+              className={analysisView === "trends" ? "active" : undefined}
+              type="button"
+              role="tab"
+              aria-selected={analysisView === "trends"}
+              aria-controls="analysis-trends-panel"
+              onClick={() => setAnalysisView("trends")}
+            >
+              Trends over time
+            </button>
+            <button
+              id="analysis-peers-tab"
+              className={analysisView === "peers" ? "active" : undefined}
+              type="button"
+              role="tab"
+              aria-selected={analysisView === "peers"}
+              aria-controls="analysis-peers-panel"
+              onClick={() => setAnalysisView("peers")}
+            >
               Compare with peers
             </button>
           </div>
@@ -174,17 +201,26 @@ function App() {
               <ChevronDown size={15} aria-hidden="true" />
             </label>
           </div>
-          <div className="analysis-grid">
-            <article className="trend-panel">
+          <div className="analysis-grid single">
+            {analysisView === "trends" ? <article
+              id="analysis-trends-panel"
+              className="trend-panel"
+              role="tabpanel"
+              aria-labelledby="analysis-trends-tab"
+            >
               <h3>{selectedIndicator.name}</h3>
               <p>{selectedIndicator.unit}</p>
               <TrendChart history={country.history[selectedIndicator.id] ?? []} indicator={selectedIndicator} />
-            </article>
-            <article className="peer-panel">
+            </article> : <article
+              id="analysis-peers-panel"
+              className="peer-panel"
+              role="tabpanel"
+              aria-labelledby="analysis-peers-tab"
+            >
               <h3>{selectedIndicator.name}</h3>
               <p>{country.regionName} peers · latest available year per country</p>
               <PeerPlot countries={dataset.countries} selectedCountry={country} indicator={selectedIndicator} />
-            </article>
+            </article>}
           </div>
         </section>
       </main>
