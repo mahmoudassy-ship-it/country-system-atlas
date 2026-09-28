@@ -18,6 +18,7 @@ const manifest = { createdAt: new Date().toISOString(), files: [] };
 for (const name of files) {
   const source = path.join(dataDirectory, name);
   try {
+    await stat(source);
     const targetName = `${stamp}-${name}.gz`;
     const target = path.join(backupDirectory, targetName);
     await pipeline(createReadStream(source), createGzip({ level: 9 }), createWriteStream(target, { mode: 0o640 }));

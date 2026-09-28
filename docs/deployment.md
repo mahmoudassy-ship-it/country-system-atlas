@@ -22,6 +22,8 @@ npm run pages:deploy -- --project-name country-system-atlas --branch main
 npm run verify:production
 ```
 
+For a backend code release, run `sudo scripts/deploy-server-runtime.sh`. It synchronizes code without overwriting the independently refreshed runtime database, source archives, backups, or generated fallback files.
+
 `.env.production` supplies the public API origin at Vite build time. A production build should contain `https://system-atlas-api.eufoniadiversity.com`; Pages itself must not expose `/api/*` Functions. Source maps are disabled and `public/_headers` applies the production CSP and browser security headers.
 
 ## First server installation
