@@ -197,7 +197,12 @@ for (const { indicator, payload } of worldBankPayloads) {
       period: row.date,
       value,
       status: defaultObservationStatus(indicator),
-      sourceUrl: `https://data.worldbank.org/indicator/${indicator.sourceIndicatorId}?locations=${row.countryiso3code}`,
+      // Link to the exact official API series used by the importer. The public
+      // data.worldbank.org pages are not a dependable provenance target: they
+      // reject ISO-3 location parameters and intermittently render a branded
+      // error page with HTTP 200. The API accepts the country's ISO-2 code and
+      // remains usable for WDI and the revised WGI series alike.
+      sourceUrl: `${API_BASE}/country/${country.iso2}/indicator/${indicator.sourceIndicatorId}?format=json&date=${START_YEAR}:${END_YEAR}&per_page=1000`,
     };
     (country.history[indicator.id] ??= []).push(observation);
   }
@@ -285,7 +290,7 @@ for (const row of regimeRows) {
   const value = asNumber(row["Political regime"]);
   if (!regimeIndicator || !country || year < START_YEAR || year > END_YEAR || value === null) continue;
   (country.history[regimeIndicator.id] ??= []).push({
-    period: String(year), value, status: "modelled", sourceUrl: "https://ourworldindata.org/grapher/political-regime",
+    period: String(year), value, status: "modelled", sourceUrl: "https://ourworldindata.org/grapher/political-regime?tab=chart",
   });
 }
 

@@ -29,6 +29,12 @@ describe("reviewed source catalog", () => {
       indicatorCatalog.length,
     );
     expect(indicatorCatalog.every((indicator) => sourceIds.has(indicator.sourceId))).toBe(true);
+    expect(sourceCatalog.every((source) => {
+      return [source.homepageUrl, source.methodologyUrl, source.licenseUrl]
+        .every((url) => new URL(url).protocol === "https:");
+    })).toBe(true);
+    expect(JSON.stringify(sourceCatalog)).not.toContain("datacatalog.worldbank.org/public-licenses");
+    expect(JSON.stringify(sourceCatalog)).not.toContain("imf.org/external/terms.htm");
   });
 
   it("keeps an explanation and limitation with every measure", () => {
@@ -90,7 +96,11 @@ describe("reviewed data snapshot", () => {
         .filter((observation): observation is NonNullable<typeof observation> => Boolean(observation));
       expect(observations.length).toBeGreaterThanOrEqual(200);
       expect(observations.every((observation) => observation.value >= 0 && observation.value <= 100)).toBe(true);
-      expect(observations.every((observation) => observation.sourceUrl?.includes("data.worldbank.org"))).toBe(true);
+      expect(observations.every((observation) => {
+        return /^https:\/\/api\.worldbank\.org\/v2\/country\/[A-Z]{2}\/indicator\/GOV_WGI_[A-Z]{2}_SC\?/.test(
+          observation.sourceUrl ?? "",
+        );
+      })).toBe(true);
     }
   });
 

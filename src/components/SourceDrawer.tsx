@@ -65,7 +65,7 @@ export function SourceDrawer({ open, onClose, country, indicator, sourceName }: 
           <p>{indicator.sourceName ?? sourceName}</p>
           {observation?.sourceUrl && (
             <a href={observation.sourceUrl} target="_blank" rel="noreferrer">
-              Open the source series <ExternalLink size={15} />
+              Open the source data <ExternalLink size={15} />
             </a>
           )}
           {indicator.sourceMethodologyUrl && (

@@ -5,7 +5,7 @@
     "homepageUrl": "https://data.worldbank.org/",
     "methodologyUrl": "https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information",
     "licenseName": "CC BY 4.0",
-    "licenseUrl": "https://datacatalog.worldbank.org/public-licenses",
+    "licenseUrl": "https://data.worldbank.org/summary-terms-of-use",
     "expectedCadence": "weekly release check; underlying datasets vary"
   },
   {
@@ -14,7 +14,7 @@
     "homepageUrl": "https://databank.worldbank.org/source/world-development-indicators",
     "methodologyUrl": "https://datatopics.worldbank.org/world-development-indicators/",
     "licenseName": "CC BY 4.0",
-    "licenseUrl": "https://datacatalog.worldbank.org/public-licenses",
+    "licenseUrl": "https://data.worldbank.org/summary-terms-of-use",
     "expectedCadence": "annual or source-specific; checked weekly"
   },
   {
@@ -23,7 +23,7 @@
     "homepageUrl": "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
     "methodologyUrl": "https://www.worldbank.org/en/publication/worldwide-governance-indicators/documentation",
     "licenseName": "CC BY 4.0",
-    "licenseUrl": "https://datacatalog.worldbank.org/public-licenses",
+    "licenseUrl": "https://data.worldbank.org/summary-terms-of-use",
     "expectedCadence": "annual, usually October; checked weekly"
   },
   {
@@ -47,10 +47,10 @@
   {
     "id": "owid-vdem",
     "name": "V-Dem Regimes of the World, processed by Our World in Data",
-    "homepageUrl": "https://ourworldindata.org/grapher/political-regime",
+    "homepageUrl": "https://ourworldindata.org/grapher/political-regime?tab=chart",
     "methodologyUrl": "https://ourworldindata.org/regimes-of-the-world-data",
     "licenseName": "CC BY 4.0; underlying V-Dem data CC BY-SA 4.0",
-    "licenseUrl": "https://ourworldindata.org/how-to-use-our-world-in-data",
+    "licenseUrl": "https://ourworldindata.org/faqs",
     "expectedCadence": "annual release; checked daily"
   },
   {
@@ -59,7 +59,7 @@
     "homepageUrl": "https://www.imf.org/external/datamapper/GDD/2025",
     "methodologyUrl": "https://www.imf.org/en/Publications/WP/Issues/2018/05/14/Global-Debt-Database-Methodology-and-Sources-45838",
     "licenseName": "IMF Copyright and Usage Terms",
-    "licenseUrl": "https://www.imf.org/external/terms.htm",
+    "licenseUrl": "https://www.imf.org/en/about/copyright-and-terms",
     "expectedCadence": "annual release; checked daily"
   }
 ]
