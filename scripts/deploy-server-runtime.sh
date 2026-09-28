@@ -18,6 +18,7 @@ rsync -a --delete \
   --exclude='dist/' \
   --exclude='node_modules/' \
   "$SOURCE_DIR/" "$TARGET_DIR/"
+chown -R system-atlas:system-atlas "$TARGET_DIR"
 cd "$TARGET_DIR"
 sudo -u system-atlas npm ci
 chown -R system-atlas:system-atlas "$TARGET_DIR"
