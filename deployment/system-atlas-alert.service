@@ -1,0 +1,15 @@
+[Unit]
+Description=Send a System Atlas refresh failure alert
+
+[Service]
+Type=oneshot
+User=system-atlas
+Group=system-atlas
+WorkingDirectory=/srv/system-atlas
+EnvironmentFile=-/etc/system-atlas/environment
+ExecStart=/usr/bin/node scripts/send-operations-alert.mjs
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6

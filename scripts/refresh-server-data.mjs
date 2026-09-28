@@ -55,6 +55,7 @@ try {
   }
   await writeStatus({
     status: "succeeded",
+    stage: "database-published",
     completedAt: new Date().toISOString(),
     generatedAt: snapshot.generatedAt,
     contentChecksum: snapshot.contentChecksum,

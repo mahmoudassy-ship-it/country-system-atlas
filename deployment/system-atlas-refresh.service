@@ -2,7 +2,7 @@
 Description=Refresh and validate System Atlas data
 After=network-online.target
 Wants=network-online.target
-OnFailure=system-atlas-rollback.service
+OnFailure=system-atlas-rollback.service system-atlas-alert.service
 
 [Service]
 Type=oneshot

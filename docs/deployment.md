@@ -43,6 +43,7 @@ sudo install -m 0644 deployment/system-atlas.service /etc/systemd/system/system-
 sudo install -m 0644 deployment/system-atlas-refresh.service /etc/systemd/system/system-atlas-refresh.service
 sudo install -m 0644 deployment/system-atlas-refresh.timer /etc/systemd/system/system-atlas-refresh.timer
 sudo install -m 0644 deployment/system-atlas-rollback.service /etc/systemd/system/system-atlas-rollback.service
+sudo install -m 0644 deployment/system-atlas-alert.service /etc/systemd/system/system-atlas-alert.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now system-atlas.service system-atlas-refresh.timer
 ```
