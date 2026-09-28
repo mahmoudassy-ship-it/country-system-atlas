@@ -12,11 +12,11 @@ fi
 id system-atlas >/dev/null 2>&1
 install -d -m 0750 -o system-atlas -g system-atlas "$TARGET_DIR"
 rsync -a --delete \
-  --exclude='.git/' \
-  --exclude='data/' \
-  --exclude='public/data/' \
-  --exclude='dist/' \
-  --exclude='node_modules/' \
+  --exclude='/.git/' \
+  --exclude='/data/' \
+  --exclude='/public/data/' \
+  --exclude='/dist/' \
+  --exclude='/node_modules/' \
   "$SOURCE_DIR/" "$TARGET_DIR/"
 chown -R system-atlas:system-atlas "$TARGET_DIR"
 cd "$TARGET_DIR"
