@@ -1,0 +1,582 @@
+{
+  "generatedAt": "2026-09-28T09:20:01.057Z",
+  "status": "passed_with_notes",
+  "scope": {
+    "countries": 219,
+    "indicators": 71,
+    "sources": 7,
+    "observationValues": 142972
+  },
+  "roster": {
+    "uniqueIso3": 219,
+    "uniqueIso2": 219,
+    "mapMatched": 218,
+    "countriesWithoutShape": [
+      {
+        "iso3": "CHI",
+        "iso2": "JG",
+        "name": "Channel Islands"
+      }
+    ],
+    "shapesWithoutProfile": [
+      {
+        "iso2": "AI",
+        "name": "Anguilla"
+      },
+      {
+        "iso2": "AX",
+        "name": "Aland Islands"
+      },
+      {
+        "iso2": "BL",
+        "name": "Saint Barthelemy"
+      },
+      {
+        "iso2": "BQ",
+        "name": "Bonaire,  Saint Eustachius and Saba"
+      },
+      {
+        "iso2": "BV",
+        "name": "Bouvet Island"
+      },
+      {
+        "iso2": "CC",
+        "name": "Cocos  (Keeling)  Islands"
+      },
+      {
+        "iso2": "CK",
+        "name": "Cook Islands"
+      },
+      {
+        "iso2": "CX",
+        "name": "Christmas Island"
+      },
+      {
+        "iso2": "EH",
+        "name": "Western Sahara"
+      },
+      {
+        "iso2": "FK",
+        "name": "Falkland Islands"
+      },
+      {
+        "iso2": "GF",
+        "name": "French Guiana"
+      },
+      {
+        "iso2": "GG",
+        "name": "Guernsey"
+      },
+      {
+        "iso2": "GO",
+        "name": "Glorioso Islands"
+      },
+      {
+        "iso2": "GP",
+        "name": "Guadeloupe"
+      },
+      {
+        "iso2": "GS",
+        "name": "South Georgia and South Sandwich Islands"
+      },
+      {
+        "iso2": "HM",
+        "name": "Heard Island and McDonald Islands"
+      },
+      {
+        "iso2": "IO",
+        "name": "British Indian Ocean Territory"
+      },
+      {
+        "iso2": "JE",
+        "name": "Jersey"
+      },
+      {
+        "iso2": "JU",
+        "name": "Juan De Nova Island"
+      },
+      {
+        "iso2": "MQ",
+        "name": "Martinique"
+      },
+      {
+        "iso2": "MS",
+        "name": "Montserrat"
+      },
+      {
+        "iso2": "NF",
+        "name": "Norfolk Island"
+      },
+      {
+        "iso2": "NU",
+        "name": "Niue"
+      },
+      {
+        "iso2": "PM",
+        "name": "Saint Pierre and Miquelon"
+      },
+      {
+        "iso2": "PN",
+        "name": "Pitcairn Islands"
+      },
+      {
+        "iso2": "RE",
+        "name": "Reunion"
+      },
+      {
+        "iso2": "SH",
+        "name": "Saint Helena"
+      },
+      {
+        "iso2": "SJ",
+        "name": "Svalbard and Jan Mayen"
+      },
+      {
+        "iso2": "TF",
+        "name": "French Southern and Antarctic Lands"
+      },
+      {
+        "iso2": "TK",
+        "name": "Tokelau"
+      },
+      {
+        "iso2": "UM-DQ",
+        "name": "Jarvis Island"
+      },
+      {
+        "iso2": "UM-FQ",
+        "name": "Baker Island"
+      },
+      {
+        "iso2": "UM-HQ",
+        "name": "Howland Island"
+      },
+      {
+        "iso2": "UM-JQ",
+        "name": "Johnston Atoll"
+      },
+      {
+        "iso2": "UM-MQ",
+        "name": "Midway Islands"
+      },
+      {
+        "iso2": "UM-WQ",
+        "name": "Wake Island"
+      },
+      {
+        "iso2": "WF",
+        "name": "Wallis and Futuna"
+      },
+      {
+        "iso2": "YT",
+        "name": "Mayotte"
+      }
+    ]
+  },
+  "coverage": {
+    "wb-gdp-per-capita-ppp": {
+      "available": 199,
+      "percent": 90.9,
+      "latestYear": 2025
+    },
+    "wb-gdp-per-capita-growth": {
+      "available": 214,
+      "percent": 97.7,
+      "latestYear": 2025
+    },
+    "wb-gdp-current-usd": {
+      "available": 214,
+      "percent": 97.7,
+      "latestYear": 2025
+    },
+    "wb-inflation": {
+      "available": 193,
+      "percent": 88.1,
+      "latestYear": 2025
+    },
+    "wb-gini": {
+      "available": 171,
+      "percent": 78.1,
+      "latestYear": 2025
+    },
+    "wb-life-expectancy": {
+      "available": 217,
+      "percent": 99.1,
+      "latestYear": 2024
+    },
+    "wb-under-five-mortality": {
+      "available": 196,
+      "percent": 89.5,
+      "latestYear": 2024
+    },
+    "wb-internet-use": {
+      "available": 213,
+      "percent": 97.3,
+      "latestYear": 2025
+    },
+    "wb-infant-mortality": {
+      "available": 196,
+      "percent": 89.5,
+      "latestYear": 2024
+    },
+    "wb-electricity-access": {
+      "available": 216,
+      "percent": 98.6,
+      "latestYear": 2024
+    },
+    "wb-pm25-exposure": {
+      "available": 200,
+      "percent": 91.3,
+      "latestYear": 2023
+    },
+    "wb-tax-revenue": {
+      "available": 161,
+      "percent": 73.5,
+      "latestYear": 2024
+    },
+    "wgi-voice-accountability": {
+      "available": 206,
+      "percent": 94.1,
+      "latestYear": 2024
+    },
+    "wgi-government-effectiveness": {
+      "available": 204,
+      "percent": 93.2,
+      "latestYear": 2024
+    },
+    "wgi-rule-of-law": {
+      "available": 206,
+      "percent": 94.1,
+      "latestYear": 2024
+    },
+    "wgi-control-corruption": {
+      "available": 206,
+      "percent": 94.1,
+      "latestYear": 2024
+    },
+    "wb-unemployment-total": {
+      "available": 187,
+      "percent": 85.4,
+      "latestYear": 2025
+    },
+    "wb-unemployment-female": {
+      "available": 187,
+      "percent": 85.4,
+      "latestYear": 2025
+    },
+    "wb-unemployment-male": {
+      "available": 187,
+      "percent": 85.4,
+      "latestYear": 2025
+    },
+    "wb-youth-unemployment": {
+      "available": 187,
+      "percent": 85.4,
+      "latestYear": 2025
+    },
+    "wb-youth-unemployment-female": {
+      "available": 187,
+      "percent": 85.4,
+      "latestYear": 2025
+    },
+    "wb-youth-unemployment-male": {
+      "available": 187,
+      "percent": 85.4,
+      "latestYear": 2025
+    },
+    "wb-youth-neet": {
+      "available": 182,
+      "percent": 83.1,
+      "latestYear": 2025
+    },
+    "wb-labour-participation-female": {
+      "available": 187,
+      "percent": 85.4,
+      "latestYear": 2025
+    },
+    "wb-labour-participation-male": {
+      "available": 187,
+      "percent": 85.4,
+      "latestYear": 2025
+    },
+    "wb-primary-completion": {
+      "available": 198,
+      "percent": 90.4,
+      "latestYear": 2025
+    },
+    "wb-primary-out-of-school": {
+      "available": 205,
+      "percent": 93.6,
+      "latestYear": 2025
+    },
+    "wb-secondary-enrolment": {
+      "available": 208,
+      "percent": 95,
+      "latestYear": 2025
+    },
+    "wb-tertiary-enrolment": {
+      "available": 203,
+      "percent": 92.7,
+      "latestYear": 2025
+    },
+    "wb-adult-literacy": {
+      "available": 170,
+      "percent": 77.6,
+      "latestYear": 2024
+    },
+    "wb-learning-poverty": {
+      "available": 125,
+      "percent": 57.1,
+      "latestYear": 2023
+    },
+    "wb-maternal-mortality": {
+      "available": 194,
+      "percent": 88.6,
+      "latestYear": 2023
+    },
+    "wb-uhc-service-coverage": {
+      "available": 193,
+      "percent": 88.1,
+      "latestYear": 2023
+    },
+    "wb-dpt-immunisation": {
+      "available": 193,
+      "percent": 88.1,
+      "latestYear": 2024
+    },
+    "wb-poverty-3-dollar": {
+      "available": 171,
+      "percent": 78.1,
+      "latestYear": 2025
+    },
+    "wb-multidimensional-poverty-headcount": {
+      "available": 109,
+      "percent": 49.8,
+      "latestYear": 2023
+    },
+    "wb-women-parliament": {
+      "available": 193,
+      "percent": 88.1,
+      "latestYear": 2025
+    },
+    "wb-adolescent-fertility": {
+      "available": 217,
+      "percent": 99.1,
+      "latestYear": 2024
+    },
+    "undp-hdi": {
+      "available": 193,
+      "percent": 88.1,
+      "latestYear": 2023
+    },
+    "undp-ihdi": {
+      "available": 170,
+      "percent": 77.6,
+      "latestYear": 2023
+    },
+    "undp-gii": {
+      "available": 172,
+      "percent": 78.5,
+      "latestYear": 2023
+    },
+    "undp-gdi": {
+      "available": 184,
+      "percent": 84,
+      "latestYear": 2023
+    },
+    "undp-phdi": {
+      "available": 156,
+      "percent": 71.2,
+      "latestYear": 2023
+    },
+    "wb-safe-water": {
+      "available": 151,
+      "percent": 68.9,
+      "latestYear": 2024
+    },
+    "wb-safe-sanitation": {
+      "available": 146,
+      "percent": 66.7,
+      "latestYear": 2024
+    },
+    "wb-clean-cooking": {
+      "available": 189,
+      "percent": 86.3,
+      "latestYear": 2023
+    },
+    "wb-homicide-rate": {
+      "available": 196,
+      "percent": 89.5,
+      "latestYear": 2023
+    },
+    "wb-ghg-emissions-per-capita": {
+      "available": 203,
+      "percent": 92.7,
+      "latestYear": 2024
+    },
+    "wb-renewable-energy-share": {
+      "available": 212,
+      "percent": 96.8,
+      "latestYear": 2022
+    },
+    "wb-forest-area": {
+      "available": 214,
+      "percent": 97.7,
+      "latestYear": 2023
+    },
+    "idea-representation": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-credible-elections": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-effective-parliament": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-rights": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-civil-liberties": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-free-press": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-gender-equality": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-rule-of-law": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-judicial-independence": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-absence-corruption": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-participation": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "idea-civil-society": {
+      "available": 173,
+      "percent": 79,
+      "latestYear": 2025
+    },
+    "vdem-regime-type": {
+      "available": 174,
+      "percent": 79.5,
+      "latestYear": 2025
+    },
+    "imf-general-government-debt": {
+      "available": 88,
+      "percent": 40.2,
+      "latestYear": 2024
+    },
+    "imf-private-debt": {
+      "available": 160,
+      "percent": 73.1,
+      "latestYear": 2024
+    },
+    "imf-household-debt": {
+      "available": 86,
+      "percent": 39.3,
+      "latestYear": 2024
+    },
+    "imf-corporate-debt": {
+      "available": 86,
+      "percent": 39.3,
+      "latestYear": 2024
+    },
+    "wb-military-expenditure-gdp": {
+      "available": 164,
+      "percent": 74.9,
+      "latestYear": 2024
+    },
+    "wb-military-expenditure-budget": {
+      "available": 161,
+      "percent": 73.5,
+      "latestYear": 2024
+    },
+    "wb-education-expenditure-budget": {
+      "available": 201,
+      "percent": 91.8,
+      "latestYear": 2025
+    },
+    "wb-health-expenditure-budget": {
+      "available": 193,
+      "percent": 88.1,
+      "latestYear": 2024
+    }
+  },
+  "extraction": {
+    "World Bank": {
+      "compared": 96006,
+      "missing": 0,
+      "different": 0,
+      "examples": []
+    },
+    "UNDP": {
+      "compared": 10188,
+      "missing": 0,
+      "different": 0,
+      "examples": []
+    },
+    "International IDEA": {
+      "compared": 29064,
+      "missing": 0,
+      "different": 0,
+      "examples": []
+    },
+    "V-Dem regime classification": {
+      "compared": 2434,
+      "missing": 0,
+      "different": 0,
+      "examples": []
+    },
+    "IMF": {
+      "compared": 5280,
+      "missing": 0,
+      "different": 0,
+      "examples": []
+    }
+  },
+  "documentation": {
+    "complete": 71,
+    "total": 71
+  },
+  "issues": [
+    {
+      "severity": "low",
+      "check": "map matching",
+      "countriesWithoutShape": [
+        {
+          "iso3": "CHI",
+          "iso2": "JG",
+          "name": "Channel Islands"
+        }
+      ]
+    }
+  ]
+}

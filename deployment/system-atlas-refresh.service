@@ -1,0 +1,37 @@
+[Unit]
+Description=Refresh and validate System Atlas data
+After=network-online.target
+Wants=network-online.target
+OnFailure=system-atlas-rollback.service
+
+[Service]
+Type=oneshot
+User=system-atlas
+Group=system-atlas
+WorkingDirectory=/srv/system-atlas
+EnvironmentFile=-/etc/system-atlas/environment
+Environment=SYSTEM_ATLAS_DEPLOY_PAGES=1
+Environment=NPM_CONFIG_CACHE=/srv/system-atlas/data/npm-cache
+ExecStartPre=/usr/bin/npm run server:backup
+ExecStart=/usr/bin/npm run server:refresh
+ExecStartPost=+/usr/bin/systemctl restart system-atlas.service
+ExecStartPost=/usr/bin/npm run verify:local-api
+ExecStartPost=/usr/bin/npm run data:prune
+TimeoutStartSec=30min
+Nice=10
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+SystemCallArchitectures=native
+ReadWritePaths=/srv/system-atlas
+UMask=0027

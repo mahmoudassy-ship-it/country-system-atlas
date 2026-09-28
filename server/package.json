@@ -1,0 +1,8 @@
+{
+  "name": "@system-atlas/server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.mjs"
+  }
+}

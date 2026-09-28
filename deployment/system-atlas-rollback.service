@@ -1,0 +1,8 @@
+[Unit]
+Description=Rollback System Atlas database after failed post-publish verification
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/system-atlas
+ExecStart=/usr/bin/node scripts/rollback-server-data.mjs
+ExecStartPost=/usr/bin/systemctl restart system-atlas.service

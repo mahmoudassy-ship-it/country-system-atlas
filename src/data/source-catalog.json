@@ -1,0 +1,65 @@
+[
+  {
+    "id": "world-bank-api",
+    "name": "World Bank Open Data API",
+    "homepageUrl": "https://data.worldbank.org/",
+    "methodologyUrl": "https://datahelpdesk.worldbank.org/knowledgebase/topics/125589-developer-information",
+    "licenseName": "CC BY 4.0",
+    "licenseUrl": "https://datacatalog.worldbank.org/public-licenses",
+    "expectedCadence": "weekly release check; underlying datasets vary"
+  },
+  {
+    "id": "world-bank-wdi",
+    "name": "World Development Indicators",
+    "homepageUrl": "https://databank.worldbank.org/source/world-development-indicators",
+    "methodologyUrl": "https://datatopics.worldbank.org/world-development-indicators/",
+    "licenseName": "CC BY 4.0",
+    "licenseUrl": "https://datacatalog.worldbank.org/public-licenses",
+    "expectedCadence": "annual or source-specific; checked weekly"
+  },
+  {
+    "id": "world-bank-wgi",
+    "name": "Worldwide Governance Indicators — 2025 revision",
+    "homepageUrl": "https://www.worldbank.org/en/publication/worldwide-governance-indicators",
+    "methodologyUrl": "https://www.worldbank.org/en/publication/worldwide-governance-indicators/documentation",
+    "licenseName": "CC BY 4.0",
+    "licenseUrl": "https://datacatalog.worldbank.org/public-licenses",
+    "expectedCadence": "annual, usually October; checked weekly"
+  },
+  {
+    "id": "undp-hdro",
+    "name": "UNDP Human Development Report Office",
+    "homepageUrl": "https://hdr.undp.org/data-center",
+    "methodologyUrl": "https://hdr.undp.org/data-center/documentation-and-downloads",
+    "licenseName": "CC BY 3.0 IGO",
+    "licenseUrl": "https://hdr.undp.org/terms-use",
+    "expectedCadence": "annual release; checked weekly"
+  },
+  {
+    "id": "international-idea-gsod",
+    "name": "International IDEA Global State of Democracy Indices v10",
+    "homepageUrl": "https://www.idea.int/democracytracker/gsod-indices",
+    "methodologyUrl": "https://www.idea.int/publications/catalogue/global-state-democracy-indices-methodology-conceptualization-and-measurement?lang=en",
+    "licenseName": "Free access; International IDEA citation requested",
+    "licenseUrl": "https://www.idea.int/democracytracker/gsod-indices",
+    "expectedCadence": "annual release; checked daily"
+  },
+  {
+    "id": "owid-vdem",
+    "name": "V-Dem Regimes of the World, processed by Our World in Data",
+    "homepageUrl": "https://ourworldindata.org/grapher/political-regime",
+    "methodologyUrl": "https://ourworldindata.org/regimes-of-the-world-data",
+    "licenseName": "CC BY 4.0; underlying V-Dem data CC BY-SA 4.0",
+    "licenseUrl": "https://ourworldindata.org/how-to-use-our-world-in-data",
+    "expectedCadence": "annual release; checked daily"
+  },
+  {
+    "id": "imf-gdd",
+    "name": "IMF Global Debt Database",
+    "homepageUrl": "https://www.imf.org/external/datamapper/GDD/2025",
+    "methodologyUrl": "https://www.imf.org/en/Publications/WP/Issues/2018/05/14/Global-Debt-Database-Methodology-and-Sources-45838",
+    "licenseName": "IMF Copyright and Usage Terms",
+    "licenseUrl": "https://www.imf.org/external/terms.htm",
+    "expectedCadence": "annual release; checked daily"
+  }
+]
