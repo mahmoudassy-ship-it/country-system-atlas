@@ -61,7 +61,7 @@ curl https://system-atlas-api.eufoniadiversity.com/api/health
 npm run verify:production
 ```
 
-The public API is also checked from GitHub Actions every 30 minutes. The monitor opens an issue assigned to the repository owner when the API is unavailable, stale, degraded, incomplete, or reports a failed refresh, and closes the incident after recovery. GitHub issue notifications provide email delivery without storing SMTP credentials on the VPS. Keep GitHub email notifications enabled for assigned issues.
+The public API is also checked from GitHub Actions every 30 minutes. This monitor is deliberately non-notifying: it records healthy results or warning details in the workflow summary without creating issues, assigning users, commenting, or failing the job. Operational email alerts remain disabled unless the owner explicitly opts back in.
 
 To exercise the full refresh manually, start the oneshot service and inspect its journal:
 

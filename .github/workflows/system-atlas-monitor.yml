@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
 
 concurrency:
   group: system-atlas-health-monitor
@@ -22,18 +21,29 @@ jobs:
     timeout-minutes: 5
     env:
       HEALTH_URL: https://system-atlas-api.eufoniadiversity.com/api/health
-      INCIDENT_LABEL: system-atlas-monitoring
-      INCIDENT_TITLE: System Atlas production health check failed
     steps:
-      - name: Check production API and refresh state
+      - name: Check production API and refresh state without notifications
         shell: bash
         run: |
-          set -euo pipefail
-          response=$(curl --fail --silent --show-error --location \
-            --retry 2 --retry-all-errors --connect-timeout 10 --max-time 30 \
-            "$HEALTH_URL")
+          set -uo pipefail
+          if ! response=$(curl --fail --silent --show-error --location \
+              --retry 2 --retry-all-errors --connect-timeout 10 --max-time 30 \
+              "$HEALTH_URL"); then
+            echo "::warning::System Atlas health endpoint could not be reached"
+            printf '## System Atlas health\n\n⚠️ Health endpoint could not be reached.\n' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           HEALTH_RESPONSE="$response" node <<'NODE'
-          const health = JSON.parse(process.env.HEALTH_RESPONSE);
+          const { appendFileSync } = require("node:fs");
+          let health;
+          try {
+            health = JSON.parse(process.env.HEALTH_RESPONSE);
+          } catch {
+            const message = "Health endpoint did not return JSON";
+            console.log(`::warning::System Atlas health check: ${message}`);
+            appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## System Atlas health\n\n⚠️ ${message}\n`);
+            process.exit(0);
+          }
           const failures = [];
           if (health.ready !== true) failures.push("API is not ready");
           if (health.freshness !== "current") failures.push(`freshness is ${health.freshness ?? "unknown"}`);
@@ -50,45 +60,12 @@ jobs:
           if ((target?.indicators ?? 0) < 87) failures.push(`indicator target regressed to ${target?.indicators ?? "missing"}; expected at least 87`);
           if ((target?.sources ?? 0) < 9) failures.push(`source target regressed to ${target?.sources ?? "missing"}; expected at least 9`);
           if (failures.length) {
-            console.error(failures.join("; "));
-            process.exit(1);
+            const message = failures.join("; ");
+            console.log(`::warning::System Atlas health check: ${message}`);
+            appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## System Atlas health\n\n⚠️ ${message}\n`);
+          } else {
+            const message = `Healthy: ${health.liveCounts.observations} observations; generated ${health.generatedAt}`;
+            console.log(message);
+            appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## System Atlas health\n\n✅ ${message}\n`);
           }
-          console.log(`Healthy: ${health.liveCounts.observations} observations; generated ${health.generatedAt}`);
           NODE
-
-      - name: Open or update incident
-        if: failure()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          gh api --method POST "repos/$GITHUB_REPOSITORY/labels" \
-            -f name="$INCIDENT_LABEL" -f color="B42318" \
-            -f description="Automated System Atlas production health incident" >/dev/null 2>&1 || true
-          issue_number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
-            --label "$INCIDENT_LABEL" --json number --jq '.[0].number // empty')
-          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-          printf -v body 'The independent production health check failed at %s.\n\nHealth endpoint: %s\nWorkflow run: %s' \
-            "$(date -u +'%Y-%m-%d %H:%M:%S UTC')" "$HEALTH_URL" "$run_url"
-          if [ -n "$issue_number" ]; then
-            gh issue comment "$issue_number" --repo "$GITHUB_REPOSITORY" --body "$body"
-          else
-            gh issue create --repo "$GITHUB_REPOSITORY" --title "$INCIDENT_TITLE" \
-              --body "$body" --label "$INCIDENT_LABEL" --assignee "$GITHUB_REPOSITORY_OWNER"
-          fi
-
-      - name: Close incident after recovery
-        if: success()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          issue_number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
-            --label "$INCIDENT_LABEL" --json number --jq '.[0].number // empty' 2>/dev/null || true)
-          if [ -n "$issue_number" ]; then
-            gh issue comment "$issue_number" --repo "$GITHUB_REPOSITORY" \
-              --body="Production recovered at $(date -u +'%Y-%m-%d %H:%M:%S UTC'). The health check is passing again."
-            gh issue close "$issue_number" --repo "$GITHUB_REPOSITORY" --reason completed
-          fi
