@@ -3,7 +3,7 @@
 ## Components
 
 - Static frontend: Cloudflare Pages project `country-system-atlas`.
-- API: `system-atlas.service` on the VPS, bound to `127.0.0.1:3001`.
+- API: `system-atlas.service` on the VPS, bound to `127.0.0.1:3003`.
 - Runtime: `/srv/system-atlas`, owned by the unprivileged `system-atlas` account.
 - Database: `/srv/system-atlas/data/system-atlas.sqlite` on the VPS.
 - Public API route: `system-atlas-api.eufoniadiversity.com` through the existing `parlamento` Cloudflare Tunnel.
@@ -48,7 +48,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now system-atlas.service system-atlas-refresh.timer
 ```
 
-The remotely managed tunnel must route `system-atlas-api.eufoniadiversity.com` to `http://127.0.0.1:3001`, followed by the tunnel's catch-all rule. DNS is a proxied CNAME to the tunnel UUID. `/etc/system-atlas/environment` holds Cloudflare credentials, while `/etc/system-atlas/backup.env` selects the private R2 bucket. `SYSTEM_ATLAS_ALERT_WEBHOOK_URL` remains optional; secrets never belong in Git.
+The remotely managed tunnel must route `system-atlas-api.eufoniadiversity.com` to `http://127.0.0.1:3003`, followed by the tunnel's catch-all rule. DNS is a proxied CNAME to the tunnel UUID. `/etc/system-atlas/environment` holds Cloudflare credentials, while `/etc/system-atlas/backup.env` selects the private R2 bucket. `SYSTEM_ATLAS_ALERT_WEBHOOK_URL` remains optional; secrets never belong in Git.
 
 ## Routine checks
 

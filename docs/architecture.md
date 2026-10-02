@@ -16,7 +16,7 @@ VPS systemd refresh job
 Candidate SQLite database
         │ integrity/count gates, then atomic file swap
         ▼
-Read-only Node API on 127.0.0.1:3001 (unprivileged system-atlas user)
+Read-only Node API on 127.0.0.1:3003 (unprivileged system-atlas user)
         │
         ▼
 Cloudflare Tunnel → system-atlas-api.eufoniadiversity.com

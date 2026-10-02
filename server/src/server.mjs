@@ -8,7 +8,7 @@ const projectDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url
 const databasePath = process.env.SYSTEM_ATLAS_DB_PATH
   ? path.resolve(process.env.SYSTEM_ATLAS_DB_PATH)
   : path.join(projectDirectory, "data", "system-atlas.sqlite");
-const port = Number(process.env.PORT || 3001);
+const port = Number(process.env.PORT || 3003);
 const database = new DatabaseSync(databasePath, { readOnly: true });
 
 database.exec("PRAGMA query_only = ON; PRAGMA foreign_keys = ON");
